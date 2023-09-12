@@ -212,6 +212,10 @@ impl Display {
             RawDisplayHandle::Android(_) if extensions.contains("EGL_KHR_platform_android") => {
                 (egl::PLATFORM_ANDROID_KHR, egl::DEFAULT_DISPLAY as *mut _)
             },
+            #[cfg(ohos_platform)]
+            RawDisplayHandle::OHOS(_) => {
+                (egl::PLATFORM_ANDROID_KHR, egl::DEFAULT_DISPLAY as *mut _)
+            },
             _ => {
                 return Err(
                     ErrorKind::NotSupported("provided display handle is not supported").into()
@@ -309,6 +313,8 @@ impl Display {
             #[cfg(x11_platform)]
             RawDisplayHandle::Xlib(handle) => handle.display,
             RawDisplayHandle::Android(_) => egl::DEFAULT_DISPLAY as *mut _,
+            #[cfg(ohos_platform)]
+            RawDisplayHandle::OHOS(_) => egl::DEFAULT_DISPLAY as *mut _,
             _ => {
                 return Err(
                     ErrorKind::NotSupported("provided display handle is not supported").into()
