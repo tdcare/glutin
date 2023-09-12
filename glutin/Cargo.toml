@@ -18,7 +18,7 @@ glx = ["x11", "x11-dl", "glutin_glx_sys", "libloading"]
 wgl = ["glutin_wgl_sys", "windows-sys"]
 x11 = ["x11-dl"]
 wayland = ["wayland-sys"]
-ohos = ["ohos"]
+ohos = []
 
 [dependencies]
 bitflags = "2.2.1"
