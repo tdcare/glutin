@@ -453,6 +453,9 @@ enum NativeWindow {
     #[cfg(android_platform)]
     Android(*mut ffi::c_void),
 
+     #[cfg(ohos_platform)]
+    OHOS(*mut ffi::c_void),
+
     #[cfg(windows)]
     Win32(isize),
 
@@ -508,6 +511,14 @@ impl NativeWindow {
                 }
 
                 Self::Android(window_handle.a_native_window)
+            },
+            #[cfg(ohos_platform)]
+            RawWindowHandle::OHOS(window_handle) => {
+                if window_handle.a_native_window.is_null() {
+                    return Err(ErrorKind::BadNativeWindow.into());
+                }
+
+                Self::OHOS(window_handle.a_native_window)
             },
             #[cfg(windows)]
             RawWindowHandle::Win32(window_handle) => {
@@ -565,6 +576,8 @@ impl NativeWindow {
             Self::Win32(hwnd) => hwnd,
             #[cfg(android_platform)]
             Self::Android(a_native_window) => a_native_window,
+            #[cfg(ohos_platform)]
+            Self::OHOS(a_native_window) => a_native_window,
             #[cfg(free_unix)]
             Self::Gbm(gbm_surface) => gbm_surface,
         }
@@ -596,6 +609,8 @@ impl NativeWindow {
             Self::Win32(hwnd) => *hwnd as *const ffi::c_void as *mut _,
             #[cfg(android_platform)]
             Self::Android(a_native_window) => *a_native_window,
+            #[cfg(ohos_platform)]
+            Self::OHOS(a_native_window) => *a_native_window,
             #[cfg(free_unix)]
             Self::Gbm(gbm_surface) => *gbm_surface,
         }
