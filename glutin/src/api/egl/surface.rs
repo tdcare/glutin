@@ -577,7 +577,7 @@ impl NativeWindow {
             #[cfg(android_platform)]
             Self::Android(a_native_window) => a_native_window,
             #[cfg(ohos_platform)]
-            Self::ohos(a_native_window) => a_native_window,            
+            Self::OHOS(a_native_window) => a_native_window,            
             #[cfg(free_unix)]
             Self::Gbm(gbm_surface) => gbm_surface,
         }
